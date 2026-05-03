@@ -176,4 +176,47 @@ move = camera.forward * vertical + camera.right * horizontal;
 👉 jump + gravity + animasiya
 tam “clean” kod kimi yığım verim 👊
 
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class playerControlScript : MonoBehaviour
+{
+
+    CharacterController Player;
+    Animator anim;
+
+    float Speed = 5;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Player = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        float x = Input.GetAxis("Vertical"); 
+        float z = Input.GetAxis("Horizontal");
+
+     // Vector3 move = transform.right * x + transform.forward * z;  / oz kordinatina gore 
+        Vector3 move = new Vector3(x, 0, z);  // dunya kordinatina gore
+
+        Player.Move(move * Time.deltaTime * Speed);
+
+        if (move != Vector3.zero)
+        {
+            transform.forward = move;
+            anim.SetBool("isRuning", true);
+        }
+        else
+        {
+            anim.SetBool("isRuning", false);
+        }
+    }
+}
+
 */
