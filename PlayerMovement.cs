@@ -88,3 +88,92 @@ public class PlayerMovement : MonoBehaviour
         
     }
 }
+
+/*
+Çox yaxşı sualdı 👍 bunu başa düşsən Unity movement-in 70%-ni çözmüş olursan.
+Sənə sadə qayda ilə izah edim:
+
+🔥 1. World space (dünyaya görə)
+Vector3 move = new Vector3(horizontal, 0, vertical);
+✔ Nə deməkdir?
+
+
+Sağ = həmişə dünya sağ
+
+
+İrəli = həmişə dünya forward
+
+
+✔ Nə vaxt istifadə olunur?
+👉 2D / 2.5D oyunlarda
+👉 Kamera sabitdirsə
+👉 Sadə movement istəyirsənsə
+✔ Sənin case:
+✔ Sən bunu istifadə etməlisən
+
+🔥 2. Local space (özünə görə)
+Vector3 move = transform.right * horizontal + transform.forward * vertical;
+✔ Nə deməkdir?
+
+
+“irəli” = character hara baxırsa ora
+
+
+“sağ” = character-in sağı
+
+
+✔ Nə vaxt istifadə olunur?
+👉 FPS / TPS oyunlarda
+👉 Kamera ilə birlikdə hərəkət edəndə
+👉 PUBG, GTA, shooter sistemlərdə
+
+⚠ Sənin niyə bug oldu?
+Sən bunu etdin:
+move = transform.forward ...transform.forward = direction;
+👉 Yəni:
+
+
+movement → rotation-a bağlı
+
+
+rotation → movement-ə bağlı
+
+
+💥 nəticə: loop + bug
+
+✔ Qızıl qayda (yadda saxla)
+👉 Əgər:
+
+
+özün rotation verirsənsə
+✔ world space istifadə et
+
+
+👉 Əgər:
+
+
+rotation artıq var (kamera/character)
+✔ local space istifadə et
+
+
+
+🔥 Sadə müqayisə
+SistemMovementRotation2.5D (sənin oyun)WorldÖzün verirsənFPS / TPSLocalKamera verir
+
+💡 Bonus (pro tip)
+Əgər gələcəkdə belə sistem edəcəksənsə:
+👉 Mouse ilə kamera
+👉 Player kameranın baxdığı yerə getsin
+onda belə olacaq:
+move = camera.forward * vertical + camera.right * horizontal;
+
+🔚 Nəticə
+👉 Sadə oyun → world space
+👉 Kamera-based oyun → local space
+
+İstəsən sənə:
+👉 2.5D üçün tam hazır movement sistemi
+👉 jump + gravity + animasiya
+tam “clean” kod kimi yığım verim 👊
+
+*/
