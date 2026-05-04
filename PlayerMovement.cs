@@ -219,4 +219,62 @@ public class playerControlScript : MonoBehaviour
     }
 }
 
+------------------------------------------------------------------------------------------------------
+------------- Player asdw ile getdiyi istiqamete donur ve kameranin baxdigi istiqamete gedir ---------
+------------------------------------------------------------------------------------------------------
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class playerControl2 : MonoBehaviour
+{
+
+    CharacterController character;
+
+    Camera mainCam;
+
+    Animator anim;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        character = GetComponent<CharacterController>();
+        mainCam = Camera.main;
+
+        anim = GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+
+        Vector3 moveInput = new Vector3(horizontal, 0, vertical);
+
+        Vector3 moveDirection = mainCam.transform.TransformDirection(moveInput);
+        moveDirection.y = 0;
+        moveDirection.Normalize();
+
+        if (moveDirection.magnitude > 0.1f)
+        {
+            // Hərəkət
+            character.Move(moveDirection * Time.deltaTime * 5f);
+            anim.SetBool("isRunning", true);
+
+
+            // Dönmə
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        } else
+        {
+            anim.SetBool("isRunning", false);
+
+        }
+
+
+    }
+
+}
+
 */
