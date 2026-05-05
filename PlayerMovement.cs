@@ -277,4 +277,50 @@ public class playerControl2 : MonoBehaviour
 
 }
 
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------- PLAYER ASDW ILE KAMERA NIN BAXDIGI ISTIQAMETDE GEDIR  ---------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ChibiScript : MonoBehaviour
+{
+    CharacterController Player;
+    Animator anim;
+    Camera mainCamera;
+
+    void Start()
+    {
+        Player = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
+        mainCamera = Camera.main;
+    }
+
+    void Update()
+    {
+
+        float hor = Input.GetAxis("Horizontal");
+        float ver = Input.GetAxis("Vertical");
+
+        Vector3 moveInputWorld = new Vector3(hor, 0, ver);           //Vector3 moveInputPlayer = transform.right * hor + transform.forward * ver;
+                                                                     moveInputWorld.Normalize();
+
+        Vector3 transformDiraction = mainCamera.transform.TransformDirection(moveInputWorld);
+                transformDiraction.y = 0f;
+                                                                     transformDiraction.Normalize();
+
+        if (transformDiraction.magnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.LookRotation(transformDiraction);
+        }
+
+        Player.Move(transformDiraction * Time.deltaTime * 2.5f);
+
+    }
+}
+
+
 */
